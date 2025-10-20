@@ -1,0 +1,35 @@
+# Data Cleaning & Database Integrity (PostgreSQL)
+
+Mini case focused on **data quality** and **referential integrity** in PostgreSQL:
+- Detect invalid values (emails, phone numbers)
+- Clean data with `UPDATE`
+- Enforce integrity using **FOREIGN KEY** constraints
+
+---
+
+## Goals
+- Identify and fix invalid or inconsistent values
+- Standardize text fields and formats
+- Prevent future errors by adding constraints/keys
+
+---
+
+## Stack
+- PostgreSQL
+- psql / any SQL client
+
+---
+
+## 🔎 Data Quality Checks
+
+### 1) Emails: invalid patterns
+```sql
+-- find invalid emails (no "@domain.tld")
+SELECT customer_id, email
+FROM customers
+WHERE email NOT LIKE '%@%.%';
+
+-- fix strategy: set to NULL (or move to a review table)
+UPDATE customers
+SET email = NULL
+WHERE email NOT LIKE '%@%.%';
